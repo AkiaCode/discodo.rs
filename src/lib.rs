@@ -150,6 +150,7 @@ impl Discodo {
         data.user_id = user_id.into();
     }
 
+    /// Check the resource status of the server. [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#get-status)
     pub async fn status(&self) -> StatusResponse {
         let response = Http::get(self, "status", None, None).await;
         let json: StatusResponse = serde_json::from_str(&response).unwrap();
@@ -157,12 +158,14 @@ impl Discodo {
         return json;
     }
 
+    /// Get the information of the Route Planner [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#get-planner)
     pub async fn planner(&self) -> String {
         let response = Http::get(self, "planner", None, None).await;
 
         return response;
     }
 
+    /// Unmark all address on planner's failed list. [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-plannerunmark)
     pub async fn unmark(&self, address: &str) -> String {
         let response = Http::post(
             self,
@@ -178,6 +181,7 @@ impl Discodo {
         return response.text().await.unwrap();
     }
 
+    /// Get the information of the video searched on Youtube [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#get-getsource)
     pub async fn unmark_all(&self) -> String {
         let response = Http::post::<Nothing>(self, "planner/unmark/all", None, None, None).await;
 
@@ -197,6 +201,7 @@ impl Discodo {
         return json;
     }
 
+    /// Put source object to queue [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-putsource)
     pub async fn put_source(
         &self,
         user_id: UserId,
@@ -219,6 +224,7 @@ impl Discodo {
         return Some(response.text().await.unwrap());
     }
 
+    /// Load query from youtube and put source object to queue [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-loadsource)
     pub async fn load_source(
         &self,
         user_id: UserId,
@@ -243,6 +249,7 @@ impl Discodo {
         return Some(response.text().await.unwrap());
     }
 
+    /// Set volume of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setvolume)
     pub async fn set_volume(&self, user_id: UserId, guild_id: GuildId, volume: f32) -> Option<u16> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -260,6 +267,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Set crossfade of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setcrossfade)
     pub async fn set_crossfade(
         &self,
         user_id: UserId,
@@ -282,6 +290,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Set gapless of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setgapless)
     pub async fn set_gapless(
         &self,
         user_id: UserId,
@@ -304,6 +313,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Set autoplay of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setautoplay)
     pub async fn set_autoplay(
         &self,
         user_id: UserId,
@@ -326,6 +336,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Seek source to offset of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-seek)
     pub async fn seek(&self, user_id: UserId, guild_id: GuildId, offset: f32) -> Option<u16> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -343,6 +354,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Skip source of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-skip)
     pub async fn skip(&self, user_id: UserId, guild_id: GuildId, offset: f32) -> Option<u16> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -360,6 +372,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Pause source of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-pause)
     pub async fn pause(&self, user_id: UserId, guild_id: GuildId) -> Option<u16> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -371,6 +384,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Resume source of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-resume)
     pub async fn resume(&self, user_id: UserId, guild_id: GuildId) -> Option<u16> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -382,6 +396,7 @@ impl Discodo {
         return Some(response.status().as_u16());
     }
 
+    /// Shuffle the queue of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-shuffle)
     pub async fn shuffle(&self, user_id: UserId, guild_id: GuildId) -> Option<String> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -393,6 +408,7 @@ impl Discodo {
         return Some(response.text().await.unwrap());
     }
 
+    /// Remove source object from the queue of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-remove)
     pub async fn remove(&self, user_id: UserId, guild_id: GuildId) -> Option<String> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -404,6 +420,7 @@ impl Discodo {
         return Some(response.text().await.unwrap());
     }
 
+    /// Get state of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#get-state)
     pub async fn state(&self, user_id: UserId, guild_id: GuildId) -> Option<String> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -415,6 +432,7 @@ impl Discodo {
         return Some(response);
     }
 
+    /// Get state of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#get-queue)
     pub async fn queue(&self, user_id: UserId, guild_id: GuildId) -> Option<String> {
         if user_id.0 == 0 || guild_id.0 == 0 {
             return None;
@@ -425,7 +443,8 @@ impl Discodo {
         return Some(response);
     }
 
-    pub async fn set_filter(&self, _user_id: UserId, _guild_id: GuildId) {
+    /// Set filter of Guild ID [Docs](https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setfilter)
+    pub async fn _set_filter(&self, _user_id: UserId, _guild_id: GuildId) {
         unimplemented!(
             "https://github.com/kijk2869/discodo/blob/master/docs/server/restful.md#post-setfilter"
         );
