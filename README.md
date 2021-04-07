@@ -1,4 +1,4 @@
-# dscodo.rs
+# discodo.rs
 Rust wrapper of Discodo
 
 ##### [Docs.rs](https://docs.rs/discodo)
